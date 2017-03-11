@@ -1,0 +1,225 @@
+Dark Sky API
+ 
+DOCS FAQ STATUS CONSOLE ACCOUNT SETTINGS LOG OUT
+Overview
+Forecast Request
+Time Machine Request
+Response Format
+Frequently Asked Questions
+Data Sources
+API Libraries
+Terms of Service
+Privacy Policy
+Forecast Request
+
+https://api.darksky.net/forecast/[key]/[latitude],[longitude]
+A Forecast Request returns the current weather conditions, a minute-by-minute forecast for the next hour (where available), an hour-by-hour forecast for the next 48 hours, and a day-by-day forecast for the next week.
+
+Example Request
+
+GET https://api.darksky.net/forecast/0123456789abcdef9876543210fedcba/42.3601,-71.0589
+
+{
+  "latitude": 47.20296790272209,
+  "longitude": -123.41670367098749,
+  "timezone": "America/Los_Angeles",
+  "currently": {
+    "time": 1453402675,
+    "summary": "Rain",
+    "icon": "rain",
+    "nearestStormDistance": 0,
+    "precipIntensity": 0.1685,
+    "precipIntensityError": 0.0067,
+    "precipProbability": 1,
+    "precipType": "rain",
+    "temperature": 48.71,
+    "apparentTemperature": 46.93,
+    "dewPoint": 47.7,
+    "humidity": 0.96,
+    "windSpeed": 4.64,
+    "windBearing": 186,
+    "visibility": 4.3,
+    "cloudCover": 0.73,
+    "pressure": 1009.7,
+    "ozone": 328.35
+  },
+  "minutely": {
+    "summary": "Rain for the hour.",
+    "icon": "rain",
+    "data": [
+      {
+        "time": 1453402620,
+        "precipIntensity": 0.1715,
+        "precipIntensityError": 0.0066,
+        "precipProbability": 1,
+        "precipType": "rain"
+      },
+      ...
+    ]
+  },
+  "hourly": {
+    "summary": "Rain throughout the day.",
+    "icon": "rain",
+    "data": [
+      {
+        "time": 1453399200,
+        "summary": "Rain",
+        "icon": "rain",
+        "precipIntensity": 0.1379,
+        "precipProbability": 0.85,
+        "precipType": "rain",
+        "temperature": 48.16,
+        "apparentTemperature": 46.41,
+        "dewPoint": 46.89,
+        "humidity": 0.95,
+        "windSpeed": 4.47,
+        "windBearing": 166,
+        "visibility": 3.56,
+        "cloudCover": 0.39,
+        "pressure": 1009.97,
+        "ozone": 328.71
+      },
+      ...
+    ]
+  },
+  "daily": {
+    "summary": "Light rain throughout the week, with temperatures bottoming out at 48°F on Sunday.",
+    "icon": "rain",
+    "data": [
+      {
+        "time": 1453363200,
+        "summary": "Rain throughout the day.",
+        "icon": "rain",
+        "sunriseTime": 1453391560,
+        "sunsetTime": 1453424361,
+        "moonPhase": 0.43,
+        "precipIntensity": 0.1134,
+        "precipIntensityMax": 0.1722,
+        "precipIntensityMaxTime": 1453392000,
+        "precipProbability": 0.87,
+        "precipType": "rain",
+        "temperatureMin": 41.42,
+        "temperatureMinTime": 1453363200,
+        "temperatureMax": 53.27,
+        "temperatureMaxTime": 1453417200,
+        "apparentTemperatureMin": 36.68,
+        "apparentTemperatureMinTime": 1453363200,
+        "apparentTemperatureMax": 53.27,
+        "apparentTemperatureMaxTime": 1453417200,
+        "dewPoint": 46.79,
+        "humidity": 0.95,
+        "windSpeed": 4.26,
+        "windBearing": 150,
+        "visibility": 4.02,
+        "cloudCover": 0.77,
+        "pressure": 1009.35,
+        "ozone": 326.69
+      },
+      ...
+    ]
+  },
+  "alerts": [
+    {
+      "title": "Flood Watch for Mason, WA",
+      "time": 1453375020,
+      "expires": 1453407300,
+      "description": "...FLOOD WATCH REMAINS IN EFFECT THROUGH LATE FRIDAY NIGHT...\nTHE FLOOD WATCH CONTINUES FOR\n* A PORTION OF NORTHWEST WASHINGTON...INCLUDING THE FOLLOWING\nCOUNTY...MASON.\n* THROUGH LATE FRIDAY NIGHT\n* A STRONG WARM FRONT WILL BRING HEAVY RAIN TO THE OLYMPICS\nTONIGHT THROUGH THURSDAY NIGHT. THE HEAVY RAIN WILL PUSH THE\nSKOKOMISH RIVER ABOVE FLOOD STAGE TODAY...AND MAJOR FLOODING IS\nPOSSIBLE.\n* A FLOOD WARNING IS IN EFFECT FOR THE SKOKOMISH RIVER. THE FLOOD\nWATCH REMAINS IN EFFECT FOR MASON COUNTY FOR THE POSSIBILITY OF\nAREAL FLOODING ASSOCIATED WITH A MAJOR FLOOD.\n",
+      "uri": "http://alerts.weather.gov/cap/wwacapget.php?x=WA1255E4DB8494.FloodWatch.1255E4DCE35CWA.SEWFFASEW.38e78ec64613478bb70fc6ed9c87f6e6"
+    },
+    ...
+  ],
+  {
+  "flags": {
+    "units": "us",
+    ...
+  }
+}
+Request Parameters
+
+Required parameters slot directly into the request URL. Optional parameters should be specified as HTTP query parameters.
+
+key required
+Your Dark Sky secret key. (Your secret key must be kept secret; in particular, do not embed it in JavaScript source code that you transmit to clients.)
+latitude required
+The latitude of a location (in decimal degrees). Positive is north, negative is south.
+longitude required
+The longitude of a location (in decimal degrees). Positive is east, negative is west.
+exclude=[blocks] optional
+Exclude some number of data blocks from the API response. This is useful for reducing latency and saving cache space. The value blocks should be a comma-delimeted list (without spaces) of any of the following:
+
+currently
+minutely
+hourly
+daily
+alerts
+flags
+extend=hourly optional
+When present, return hour-by-hour data for the next 168 hours, instead of the next 48. When using this option, we strongly recommend enabling HTTP compression.
+lang=[language] optional
+Return summary properties in the desired language. (Note that units in the summary will be set according to the units parameter, so be sure to set both parameters appropriately.) language may be:
+
+ar: Arabic
+az: Azerbaijani
+be: Belarusian
+bg: Bulgarian
+bs: Bosnian
+ca: Catalan
+cs: Czech
+de: German
+el: Greek
+en: English (which is the default)
+es: Spanish
+et: Estonian
+fr: French
+hr: Croatian
+hu: Hungarian
+id: Indonesian
+it: Italian
+is: Icelandic
+kw: Cornish
+nb: Norwegian Bokmål
+nl: Dutch
+pl: Polish
+pt: Portuguese
+ru: Russian
+sk: Slovak
+sl: Slovenian
+sr: Serbian
+sv: Swedish
+tet: Tetum
+tr: Turkish
+uk: Ukrainian
+x-pig-latin: Igpay Atinlay
+zh: simplified Chinese
+zh-tw: traditional Chinese
+If you require a language not listed here, please consider contributing to our API translation module on Github.
+
+units=[units] optional
+Return weather conditions in the requested units. [units] should be one of the following:
+
+auto: automatically select units based on geographic location
+ca: same as si, except that windSpeed is in kilometers per hour
+uk2: same as si, except that nearestStormDistance and visibility are in miles and windSpeed is in miles per hour
+us: Imperial units (the default)
+si: SI units
+SI units are as follows:
+
+summary: Any summaries containing temperature or snow accumulation units will have their values in degrees Celsius or in centimeters (respectively).
+nearestStormDistance: Kilometers.
+precipIntensity: Millimeters per hour.
+precipIntensityMax: Millimeters per hour.
+precipAccumulation: Centimeters.
+temperature: Degrees Celsius.
+temperatureMin: Degrees Celsius.
+temperatureMax: Degrees Celsius.
+apparentTemperature: Degrees Celsius.
+dewPoint: Degrees Celsius.
+windSpeed: Meters per second.
+pressure: Hectopascals.
+visibility: Kilometers.
+Response Format
+
+Details of how the response is formatted may be found here.
+
+Dark SkyInquiriesSupportTerms of ServicePrivacy Policy
+©2012–6 The Dark Sky Company, LLC.  "Dark Sky" and the raindrop logo are trademarks of The Dark Sky Company, LLC.

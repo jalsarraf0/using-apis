@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="WeatherApp">
+    <head>
+        <script src="https://code.angularjs.org/1.6.3/angular.min.js"></script>
+        <script src="app.js"></script>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <!--<select ng-model="selectCity" ng-options="x.name for x in wac.cities"></select>-->
+        
+        <div ng-controller="WeatherAppController as wac">
+            
+            <h2>Select a City:</h2>
+            
+            <select 
+                ng-model="wac.selected_city" 
+                ng-options="unit.name for unit in wac.cities" 
+                ng-change="wac.selectTheCity()" 
+                ng-init="wac.selected_city" >
+            </select>
+            <p><img src="{{wac.google_static_maps_url}}" /></p>
+            
+            <h2>Add a City:</h2>
+            <input value="" type="text" placeholder="City Name" ng-model="wac.cityname">
+            <input value="" type="text" placeholder="State name" ng-model="wac.statename">
+            
+            
+            <input type="button" value="update" ng-click="wac.addCity(wac.cityname,
+                                                                      wac.cityurl,
+                                                                      wac.statename,
+                                                                      wac.citylat,
+                                                                      wac.citylon)">
+            <button class="btn" type="button" ng-click="remove(cities)">Delete</button>
+            <br>
+            <br>
+            <h2>Weather Report:</h2>
+            <p>Tempeture is:
+            --------------------------------------
+            {{wac.temperature}} Farenheit</p>
+            <p>Time is:
+            ------------------------------------------
+            {{wac.observation_time | date : 'medium'}}</p>
+            <p>Summary:
+            --------------------------------------
+            {{wac.summary}}</p>
+            
+           
+            
+            <p><img src="{{wac.summaryIcon}}" height="100" width="100"/></p>
+            
+            
+        </div>
+
+    </body>
+</html>
