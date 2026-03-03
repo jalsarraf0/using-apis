@@ -88,7 +88,7 @@ angular.module("WeatherApp", [])
                         wac.selected_city.lon = wac.selected_lon;
                         
                         
-                        var google_static_maps_key = "AIzaSyBmCqSXvHUQID08G1gnORihNx5KNYebIQ0";
+                        var google_static_maps_key = (window.APP_CONFIG && window.APP_CONFIG.GOOGLE_API_KEY) || "REPLACE_WITH_GOOGLE_API_KEY";
                         
                         wac.google_static_maps_url = "https://maps.googleapis.com/maps/api/staticmap?center=" +
                                                      wac.selected_lat + "," +
@@ -222,7 +222,7 @@ angular.module("WeatherApp", [])
             var geolocationService = {};
             
             //Google Maps Geocoding API key   
-            var key = "AIzaSyBmCqSXvHUQID08G1gnORihNx5KNYebIQ0";
+            var key = (window.APP_CONFIG && window.APP_CONFIG.GOOGLE_API_KEY) || "REPLACE_WITH_GOOGLE_API_KEY";
             
             geolocationService.geoLocate = function(location){
 
@@ -244,7 +244,7 @@ angular.module("WeatherApp", [])
             var darkSkyWeatherService = {};
             
             //DarkSky API key
-            var key = "3346f0aed1e8bc69a597064e7f3832bd";
+            var key = (window.APP_CONFIG && window.APP_CONFIG.DARKSKY_API_KEY) || "REPLACE_WITH_DARKSKY_API_KEY";
             
             darkSkyWeatherService.getCurrentConditions = function(location){
                 
